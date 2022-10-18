@@ -13,8 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class CarClientImpl implements CarClient {
 
-    @Autowired
     CarRepository carRepository;
+
+    public CarClientImpl(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
 
 
@@ -25,8 +28,12 @@ public class CarClientImpl implements CarClient {
 
     @Override
     public Optional<Cars> getCarById(String carId) {
-        return carRepository.findById(carId)
-                .map(carEntity ->  Transformers.toCar(carEntity));
+        Optional<CarEntity> optionalCar = carRepository.findById(carId);
+                if(optionalCar.isPresent()){
+                    return optionalCar.map(carEntity ->  Transformers.toCar(carEntity));
+                }else{
+                    return Optional.empty();
+                }
     }
 
     @Override

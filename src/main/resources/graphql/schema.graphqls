@@ -1,0 +1,11 @@
+type Query {
+    car(id: ID!): Cars
+}
+
+type Cars {
+    id: ID!
+    name: String!
+    color: String!
+    year: Int!
+    location: String!
+}
