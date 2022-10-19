@@ -3,7 +3,9 @@ type Query {
 }
 
 type Mutation {
-    addCar(name: String!,
+    addCar(
+        id: String!
+        name: String!,
         color: String!,
         year: String!,
         location: String!): Car!

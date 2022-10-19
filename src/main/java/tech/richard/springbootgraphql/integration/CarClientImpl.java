@@ -69,6 +69,7 @@ public class CarClientImpl implements CarClient {
     }
 
     private void updateCarEntity(CarEntity carToUpdate, Car car) {
+        carToUpdate.setId(car.getCarId()!= null ? car.getCarId() : carToUpdate.getId());
         carToUpdate.setName(car.getName() != null ? car.getName() : carToUpdate.getName());
         carToUpdate.setColor(car.getColor() != null ? car.getColor() : carToUpdate.getColor());
         carToUpdate.setYear(car.getYear() != null ? car.getYear() : carToUpdate.getYear());

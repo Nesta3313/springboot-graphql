@@ -7,6 +7,7 @@ public class Transformers {
 
     public static CarEntity toCarEntity(Car car) {
         return CarEntity.builder()
+                .id(car.getCarId())
                 .name(car.getName())
                 .color(car.getColor())
                 .year(car.getYear())
