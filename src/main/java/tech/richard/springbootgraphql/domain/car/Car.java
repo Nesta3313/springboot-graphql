@@ -1,15 +1,16 @@
 package tech.richard.springbootgraphql.domain.car;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
-import tech.richard.springbootgraphql.domain.location.Location;
+import lombok.*;
 
-import java.util.List;
+import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public class Cars {
+public class Car implements Serializable {
     @JsonProperty("id")
     private String carId;
     private String name;

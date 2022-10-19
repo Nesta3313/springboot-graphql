@@ -1,13 +1,12 @@
 package tech.richard.springbootgraphql.integration;
 
-import tech.richard.springbootgraphql.domain.car.Cars;
+import tech.richard.springbootgraphql.domain.car.Car;
 import tech.richard.springbootgraphql.entity.CarEntity;
 
 public class Transformers {
 
-    public static CarEntity toCarEntity(Cars car) {
+    public static CarEntity toCarEntity(Car car) {
         return CarEntity.builder()
-                .id(car.getCarId())
                 .name(car.getName())
                 .color(car.getColor())
                 .year(car.getYear())
@@ -15,8 +14,8 @@ public class Transformers {
                 .build();
     }
 
-    public static Cars toCar(CarEntity carEntity) {
-        return Cars.builder()
+    public static Car toCar(CarEntity carEntity) {
+        return Car.builder()
                 .carId(carEntity.getId())
                 .name(carEntity.getName())
                 .color(carEntity.getColor())

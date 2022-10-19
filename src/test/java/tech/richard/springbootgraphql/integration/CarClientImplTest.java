@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.richard.springbootgraphql.TestObjectFactory;
-import tech.richard.springbootgraphql.domain.car.Cars;
+import tech.richard.springbootgraphql.domain.car.Car;
 import tech.richard.springbootgraphql.entity.CarEntity;
 import tech.richard.springbootgraphql.repository.CarRepository;
 
@@ -29,7 +29,7 @@ class CarClientImplTest {
         subject = new CarClientImpl(carRepository);
     }
 
-    Cars car = TestObjectFactory.buildCars(carId);
+    Car car = TestObjectFactory.buildCars(carId);
 
 
     @Test
@@ -38,7 +38,7 @@ class CarClientImplTest {
 
         when(carRepository.save(Transformers.toCarEntity(car))).thenReturn(Transformers.toCarEntity(car));
 
-        Cars expectedCar =subject.saveCars(car);
+        Car expectedCar =subject.saveCars(car);
 
         assertThat(car).isEqualTo(expectedCar);
     }
@@ -48,7 +48,7 @@ class CarClientImplTest {
     void returnCarWhenFindByIdIsCalled() {
         when(carRepository.findById(carId)).thenReturn(Optional.ofNullable(Transformers.toCarEntity(car)));
 
-        Cars expectedCar = subject.getCarById(carId).get();
+        Car expectedCar = subject.getCarById(carId).get();
         assertThat(car).isEqualTo(expectedCar);
 
     }
@@ -58,7 +58,7 @@ class CarClientImplTest {
     void returnListOfCarsWhenFIndAllIsCalled() {
         when(carRepository.findAll()).thenReturn(List.of(Transformers.toCarEntity(car)));
 
-        List<Cars> carsList = subject.findAllCars();
+        List<Car> carsList = subject.findAllCars();
 
         assertThat(carsList).isEqualTo(List.of(car));
     }
@@ -77,7 +77,7 @@ class CarClientImplTest {
 
         when(carRepository.save(any(CarEntity.class))).thenReturn(carEntity);
 
-        Cars savedCar = subject.findCarByIdAndUpdate(car, carId);
+        Car savedCar = subject.findCarByIdAndUpdate(car, carId);
 
         verify(carRepository, times(1)).save(carEntity);
 

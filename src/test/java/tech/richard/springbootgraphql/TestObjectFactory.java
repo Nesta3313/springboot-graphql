@@ -1,11 +1,11 @@
 package tech.richard.springbootgraphql;
 
-import tech.richard.springbootgraphql.domain.car.Cars;
+import tech.richard.springbootgraphql.domain.car.Car;
 import tech.richard.springbootgraphql.entity.CarEntity;
 
 public class TestObjectFactory {
-    public static Cars buildCars(String carId) {
-        return Cars.builder()
+    public static Car buildCars(String carId) {
+        return Car.builder()
                 .carId(carId)
                 .name("name")
                 .color("color")

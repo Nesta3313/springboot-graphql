@@ -3,13 +3,18 @@ package tech.richard.springbootgraphql.integration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.richard.springbootgraphql.domain.car.CarClient;
-import tech.richard.springbootgraphql.domain.car.Cars;
+import tech.richard.springbootgraphql.domain.car.Car;
 import tech.richard.springbootgraphql.entity.CarEntity;
+import tech.richard.springbootgraphql.exception.CarNotFoundException;
 import tech.richard.springbootgraphql.repository.CarRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static tech.richard.springbootgraphql.integration.Transformers.toCar;
+import static tech.richard.springbootgraphql.integration.Transformers.toCarEntity;
+
 @Service
 public class CarClientImpl implements CarClient {
 
@@ -22,36 +27,36 @@ public class CarClientImpl implements CarClient {
 
 
     @Override
-    public Cars saveCars(Cars car) {
-        return Transformers.toCar(carRepository.save(Transformers.toCarEntity(car)));
+    public Car saveCars(Car car) {
+        return toCar(carRepository.save(toCarEntity(car)));
     }
 
     @Override
-    public Optional<Cars> getCarById(String carId) {
+    public Optional<Car> getCarById(String carId) {
         Optional<CarEntity> optionalCar = carRepository.findById(carId);
                 if(optionalCar.isPresent()){
-                    return optionalCar.map(carEntity ->  Transformers.toCar(carEntity));
+                    return optionalCar.map(carEntity ->  toCar(carEntity));
                 }else{
                     return Optional.empty();
                 }
     }
 
     @Override
-    public List<Cars> findAllCars() {
+    public List<Car> findAllCars() {
         return carRepository.findAll()
                 .stream()
-                .map(carEntity -> Transformers.toCar(carEntity))
+                .map(carEntity -> toCar(carEntity))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Cars findCarByIdAndUpdate(Cars car, String carId) {
+    public Car findCarByIdAndUpdate(Car car, String carId) {
         Optional<CarEntity> optionalCarEntity = carRepository.findById(carId);
 
         if(optionalCarEntity.isPresent()){
             CarEntity carEntity = optionalCarEntity.get();
             updateCarEntity(carEntity, car);
-            return Transformers.toCar(carRepository.save(carEntity));
+            return toCar(carRepository.save(carEntity));
         }else{
             throw new CarNotFoundException(String.format("Car with id %s cannot be found", carId));
         }
@@ -63,7 +68,7 @@ public class CarClientImpl implements CarClient {
         carRepository.deleteById(carId);
     }
 
-    private void updateCarEntity(CarEntity carToUpdate, Cars car) {
+    private void updateCarEntity(CarEntity carToUpdate, Car car) {
         carToUpdate.setName(car.getName() != null ? car.getName() : carToUpdate.getName());
         carToUpdate.setColor(car.getColor() != null ? car.getColor() : carToUpdate.getColor());
         carToUpdate.setYear(car.getYear() != null ? car.getYear() : carToUpdate.getYear());

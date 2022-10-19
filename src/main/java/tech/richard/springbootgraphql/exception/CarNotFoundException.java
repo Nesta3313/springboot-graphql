@@ -1,4 +1,4 @@
-package tech.richard.springbootgraphql.integration;
+package tech.richard.springbootgraphql.exception;
 
 public class CarNotFoundException extends RuntimeException{
     public CarNotFoundException(String message) {

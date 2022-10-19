@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import tech.richard.springbootgraphql.domain.manager.Manager;
-import tech.richard.springbootgraphql.domain.car.Cars;
+import tech.richard.springbootgraphql.domain.car.Car;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,5 +18,5 @@ public class Location implements Serializable {
     private String state;
     private String zipcode;
     private Manager manager;
-    private List<Cars> carsList;
+    private List<Car> carsList;
 }
