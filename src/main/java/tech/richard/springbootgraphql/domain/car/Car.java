@@ -11,6 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Car implements Serializable {
+    @JsonProperty("_id")
     private String carId;
     private String name;
     private String color;

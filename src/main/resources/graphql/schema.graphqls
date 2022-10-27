@@ -1,14 +1,23 @@
 type Query {
     car(id: ID!): Car
+    cars(carIds:[ID]!): [Car]
 }
 
 type Mutation {
     addCar(
-        id: String!
         name: String!,
         color: String!,
         year: String!,
         location: String!): Car!
+
+    updateCar(
+        carId: String!
+        name: String!,
+        color: String!,
+        year: String!,
+        location: String!): Car!
+
+    deleteCar(carId: String!): String
 }
 
 type Car {
@@ -18,3 +27,4 @@ type Car {
     year: Int!
     location: String!
 }
+

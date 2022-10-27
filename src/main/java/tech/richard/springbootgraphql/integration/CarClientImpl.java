@@ -2,14 +2,17 @@ package tech.richard.springbootgraphql.integration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.richard.springbootgraphql.api.graphql.CarGraphQLResponse;
 import tech.richard.springbootgraphql.domain.car.CarClient;
 import tech.richard.springbootgraphql.domain.car.Car;
 import tech.richard.springbootgraphql.entity.CarEntity;
 import tech.richard.springbootgraphql.exception.CarNotFoundException;
 import tech.richard.springbootgraphql.repository.CarRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static tech.richard.springbootgraphql.integration.Transformers.toCar;
@@ -42,11 +45,14 @@ public class CarClientImpl implements CarClient {
     }
 
     @Override
-    public List<Car> findAllCars() {
-        return carRepository.findAll()
-                .stream()
-                .map(carEntity -> toCar(carEntity))
-                .collect(Collectors.toList());
+    public List<Car> findAllCars(Set<String> carIds) {
+        List<Car> carList = new ArrayList<>();
+        for(String id : carIds) {
+            CarEntity car = carRepository.findById(id).get();
+            carList.add(toCar(car));
+        }
+
+        return carList;
     }
 
     @Override
@@ -64,8 +70,16 @@ public class CarClientImpl implements CarClient {
     }
 
     @Override
-    public void deleteCarById(String carId) {
-        carRepository.deleteById(carId);
+    public String deleteCarById(String carId) {
+        CarEntity carEntity = carRepository.findById(carId).get();
+        if(carEntity != null) {
+            carRepository.delete(carEntity);
+            return "Deleted";
+        }
+
+        return "No id found";
+
+
     }
 
     private void updateCarEntity(CarEntity carToUpdate, Car car) {
